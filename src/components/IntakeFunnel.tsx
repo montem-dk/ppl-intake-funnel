@@ -24,7 +24,7 @@ interface IntakeFunnelProps {
 
 const TOTAL_STEPS = 8
 
-export default function IntakeFunnel({ webhookUrl, onSubmit, avatarUrl }: IntakeFunnelProps) {
+export default function IntakeFunnel({ webhookUrl, onSubmit, avatarUrl = 'https://ppl-intake-funnel.vercel.app/avatar.png' }: IntakeFunnelProps) {
   const [step, setStep] = useState(1)
   const [formData, setFormData] = useState<FormData>({
     insuranceIndustry: null,

@@ -37,6 +37,7 @@ next-env.d.ts
 
 # Screenshots
 *.png
+!public/avatar.png
 
 # Build output (will be built on deploy)
 dist/
