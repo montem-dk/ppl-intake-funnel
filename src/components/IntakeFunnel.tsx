@@ -409,7 +409,7 @@ function Step5({ value, onChange, onNext, onBack, onSkip }: {
             value={value}
             onChange={(e) => onChange(e.target.value)}
             placeholder="Annual Revenue"
-            className="form-input pl-9"
+            className="form-input pl-12"
           />
         </div>
         <p className="text-xs text-gray-400 mt-2 text-left">Confidential</p>
@@ -513,7 +513,7 @@ function Step7({ value, onChange, onNext, onBack, onSkip }: {
             value={value}
             onChange={(e) => onChange(e.target.value)}
             placeholder="yourwebsite.com"
-            className="form-input pl-10"
+            className="form-input pl-12"
           />
         </div>
         {value && !isValidDomain(value) && (
@@ -587,7 +587,7 @@ function Step8({ formData, onChange, onSubmit, isSubmitting }: {
               value={formData.email}
               onChange={(e) => onChange('email', e.target.value)}
               placeholder="Work Email"
-              className="form-input pl-10"
+              className="form-input pl-12"
             />
           </div>
           {emailTouched && !isValidEmail(formData.email) && (
