@@ -3,13 +3,14 @@ import { createRoot } from 'react-dom/client'
 import IntakeFunnel from './components/IntakeFunnel'
 import css from './index.css?inline'
 
-// Inject styles into the document
+// Inject styles into the document (try head first, fall back to body or script parent)
 function injectStyles() {
   if (document.getElementById('intake-funnel-styles')) return
   const style = document.createElement('style')
   style.id = 'intake-funnel-styles'
   style.textContent = css
-  document.head.appendChild(style)
+  const target = document.head || document.querySelector('head') || document.body || document.documentElement
+  target.appendChild(style)
 }
 injectStyles()
 
