@@ -315,7 +315,7 @@ function Step3({ values, onToggle, onNext, onBack }: {
           <button
             key={option}
             onClick={() => onToggle(option)}
-            className={`option-card-multi ${values.includes(option) ? 'selected' : ''}`}
+            className={`option-card-multi justify-center text-center ${values.includes(option) ? 'selected' : ''}`}
           >
             <span className="font-medium" style={{ color: '#1a2e44' }}>{option}</span>
           </button>
@@ -403,13 +403,13 @@ function Step5({ value, onChange, onNext, onBack, onSkip }: {
       </div>
       <div className="max-w-md mx-auto">
         <div className="relative">
-          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">$</span>
+          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-gray-400 pointer-events-none">$</span>
           <input
             type="text"
             value={value}
             onChange={(e) => onChange(e.target.value)}
             placeholder="Annual Revenue"
-            className="form-input pl-10"
+            className="form-input pl-9"
           />
         </div>
         <p className="text-xs text-gray-400 mt-2 text-left">Confidential</p>
@@ -496,6 +496,8 @@ function Step7({ value, onChange, onNext, onBack, onSkip }: {
   onBack: () => void,
   onSkip: () => void
 }) {
+  const isValidDomain = (v: string) => /^([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/.test(v.replace(/^https?:\/\//, '').replace(/\/.*$/, ''))
+
   return (
     <div className="text-center">
       <h2 className="text-2xl md:text-3xl font-bold mb-8" style={{ color: '#1a2e44' }}>
@@ -503,24 +505,27 @@ function Step7({ value, onChange, onNext, onBack, onSkip }: {
       </h2>
       <div className="max-w-md mx-auto">
         <div className="relative">
-          <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
           </svg>
           <input
-            type="url"
+            type="text"
             value={value}
             onChange={(e) => onChange(e.target.value)}
             placeholder="yourwebsite.com"
-            className="form-input pl-12"
+            className="form-input pl-10"
           />
         </div>
+        {value && !isValidDomain(value) && (
+          <p className="text-xs mt-2 text-left" style={{ color: '#e85a5a' }}>Please enter a valid domain (e.g. yourwebsite.com)</p>
+        )}
         <p className="text-xs text-gray-400 mt-2 text-left">If you don't have a website click the button below</p>
       </div>
       <div className="flex justify-center gap-4 mt-8">
         <button onClick={onBack} className="btn-secondary">
           <ChevronLeftIcon className="w-5 h-5" />
         </button>
-        <button onClick={onNext} className="btn-next" disabled={!value}>
+        <button onClick={onNext} className="btn-next" disabled={!value || !isValidDomain(value)}>
           Next
           <ChevronRightIcon className="w-5 h-5" />
         </button>
@@ -540,7 +545,12 @@ function Step8({ formData, onChange, onSubmit, isSubmitting }: {
   onSubmit: () => void,
   isSubmitting: boolean
 }) {
-  const isValid = formData.firstName && formData.lastName && formData.email && formData.phone
+  const isValidEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)
+  const isValidPhone = (v: string) => /^\+?[\d\s\-()]{7,}$/.test(v)
+
+  const emailTouched = formData.email.length > 0
+  const phoneTouched = formData.phone.length > 0
+  const isValid = formData.firstName && formData.lastName && isValidEmail(formData.email) && isValidPhone(formData.phone)
 
   return (
     <div className="text-center">
@@ -567,25 +577,35 @@ function Step8({ formData, onChange, onSubmit, isSubmitting }: {
             className="form-input"
           />
         </div>
-        <div className="relative">
-          <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-          </svg>
-          <input
-            type="email"
-            value={formData.email}
-            onChange={(e) => onChange('email', e.target.value)}
-            placeholder="Work Email"
-            className="form-input pl-12"
-          />
+        <div>
+          <div className="relative">
+            <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            <input
+              type="email"
+              value={formData.email}
+              onChange={(e) => onChange('email', e.target.value)}
+              placeholder="Work Email"
+              className="form-input pl-10"
+            />
+          </div>
+          {emailTouched && !isValidEmail(formData.email) && (
+            <p className="text-xs mt-1 text-left" style={{ color: '#e85a5a' }}>Please enter a valid email address</p>
+          )}
         </div>
-        <input
-          type="tel"
-          value={formData.phone}
-          onChange={(e) => onChange('phone', e.target.value)}
-          placeholder="+1 000 000 0000"
-          className="form-input"
-        />
+        <div>
+          <input
+            type="tel"
+            value={formData.phone}
+            onChange={(e) => onChange('phone', e.target.value)}
+            placeholder="+1 000 000 0000"
+            className="form-input"
+          />
+          {phoneTouched && !isValidPhone(formData.phone) && (
+            <p className="text-xs mt-1 text-left" style={{ color: '#e85a5a' }}>Please enter a valid phone number</p>
+          )}
+        </div>
         <button
           onClick={onSubmit}
           className="btn-primary w-full"
