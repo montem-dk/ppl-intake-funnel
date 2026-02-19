@@ -69,12 +69,19 @@
 /* Input styling */
 .form-input {
   width: 100%;
-  padding: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-right: 1rem;
+  padding-left: 1rem;
   border-radius: 0.5rem;
   background: rgba(255, 255, 255, 0.5);
   border: 1px solid #e5e7eb;
   outline: none;
   transition: all 0.2s;
+}
+
+.form-input.pl-12 {
+  padding-left: 3rem;
 }
 
 .form-input:focus {
