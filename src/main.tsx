@@ -1,7 +1,17 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import IntakeFunnel from './components/IntakeFunnel'
-import './index.css'
+import css from './index.css?inline'
+
+// Inject styles into the document
+function injectStyles() {
+  if (document.getElementById('intake-funnel-styles')) return
+  const style = document.createElement('style')
+  style.id = 'intake-funnel-styles'
+  style.textContent = css
+  document.head.appendChild(style)
+}
+injectStyles()
 
 interface MountOptions {
   webhookUrl?: string
