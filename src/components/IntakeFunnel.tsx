@@ -23,8 +23,9 @@ interface IntakeFunnelProps {
 }
 
 const TOTAL_STEPS = 8
+const DEFAULT_WEBHOOK_URL = 'https://services.leadconnectorhq.com/hooks/T63fLDPcMSkZuqHIDdrH/webhook-trigger/b581d61c-b327-4a9f-910c-4ddadf6f8fbf'
 
-export default function IntakeFunnel({ webhookUrl, onSubmit, avatarUrl = 'https://ppl-intake-funnel.vercel.app/avatar.png' }: IntakeFunnelProps) {
+export default function IntakeFunnel({ webhookUrl = DEFAULT_WEBHOOK_URL, onSubmit, avatarUrl = 'https://ppl-intake-funnel.vercel.app/avatar.png' }: IntakeFunnelProps) {
   const [step, setStep] = useState(1)
   const [formData, setFormData] = useState<FormData>({
     insuranceIndustry: null,
